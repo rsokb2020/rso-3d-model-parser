@@ -1,4 +1,4 @@
-package si.fri.rso.kb6750.model3dcatalog.models.converters;
+package si.fri.rso.kb6750.model3dparser.models.converters;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

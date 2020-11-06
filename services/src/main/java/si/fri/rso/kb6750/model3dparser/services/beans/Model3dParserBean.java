@@ -6,23 +6,49 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.UriInfo;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
+import com.mokiat.data.front.parser.IOBJParser;
+import com.mokiat.data.front.parser.OBJModel;
+import com.mokiat.data.front.parser.OBJParser;
+import org.apache.commons.codec.binary.Base64;
+import si.fri.rso.kb6750.model3dparser.lib.Model3dBinaryData;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dMetadata;
 import si.fri.rso.kb6750.model3dparser.models.converters.Model3dMetadataConverter;
 import si.fri.rso.kb6750.model3dparser.models.entities.Model3dMetadataEntity;
 
 @RequestScoped
-public class Model3dMetadataBean {
+public class Model3dParserBean {
+
     private Logger log = Logger.getLogger(Model3dMetadataBean.class.getName());
 
     @Inject
     private EntityManager em;
 
+    public Model3dMetadata processBinaryData(Model3dBinaryData model3dBinaryData) throws IOException {
+        // TODO Parse
+        String message = model3dBinaryData.getBinaryArrayString();
+        byte[] backToBytes = Base64.decodeBase64(message);
+        String test = new String(backToBytes);
+        System.out.println("The message decoded: " + test);
+
+        final IOBJParser parser = new OBJParser();
+        InputStream targetStream = new ByteArrayInputStream(backToBytes);
+        final OBJModel model = parser.parse(targetStream);
+
+        Model3dMetadata model3dMetadata = new Model3dMetadata();
+
+        return model3dMetadata;
+    }
+
+    /*
     public List<Model3dMetadata> getModel3dMetadata() {
 
         TypedQuery<Model3dMetadataEntity> query = em.createNamedQuery(
@@ -55,7 +81,8 @@ public class Model3dMetadataBean {
 
         return model3dMetadata;
     }
-
+    */
+    /*
     public Model3dMetadata createModel3dMetadata(Model3dMetadata model3dMetadata) {
 
         Model3dMetadataEntity model3dMetadataEntity = Model3dMetadataConverter.toEntity(model3dMetadata);
@@ -137,4 +164,5 @@ public class Model3dMetadataBean {
             em.getTransaction().rollback();
         }
     }
+    */
 }

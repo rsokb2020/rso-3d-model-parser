@@ -1,5 +1,5 @@
 kumuluzee:
-  name: model-3d-catalog-service
+  name: model-3d-parser-service
   env:
     name: dev
   version: 1.0.0

@@ -1,4 +1,4 @@
-package si.fri.rso.kb6750.model3dcatalog.api.v1.filters;
+package si.fri.rso.kb6750.model3dparser.api.v1.filters;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -7,7 +7,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-import si.fri.rso.kb6750.model3dcatalog.config.RestProperties;
+import si.fri.rso.kb6750.model3dparser.config.RestProperties;
 
 @Provider
 @ApplicationScoped

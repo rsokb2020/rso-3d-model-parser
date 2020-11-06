@@ -1,4 +1,4 @@
-package si.fri.rso.kb6750.model3dcatalog.services.beans;
+package si.fri.rso.kb6750.model3dparser.services.beans;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 
-import si.fri.rso.kb6750.model3dcatalog.lib.ImageMetadata;
-import si.fri.rso.kb6750.model3dcatalog.models.converters.ImageMetadataConverter;
-import si.fri.rso.kb6750.model3dcatalog.models.entities.ImageMetadataEntity;
+import si.fri.rso.kb6750.model3dparser.lib.ImageMetadata;
+import si.fri.rso.kb6750.model3dparser.models.converters.ImageMetadataConverter;
+import si.fri.rso.kb6750.model3dparser.models.entities.ImageMetadataEntity;
 
 
 @RequestScoped

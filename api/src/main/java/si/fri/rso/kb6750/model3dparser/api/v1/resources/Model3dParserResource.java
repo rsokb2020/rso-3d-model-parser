@@ -17,25 +17,39 @@ import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.logging.Logger;
 
-import si.fri.rso.kb6750.model3dparser.lib.ImageMetadata;
+import com.mokiat.data.front.parser.IOBJParser;
+import com.mokiat.data.front.parser.OBJParser;
+import si.fri.rso.kb6750.model3dparser.lib.Model3dBinaryData;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dMetadata;
-import si.fri.rso.kb6750.model3dparser.services.beans.ImageMetadataBean;
-import si.fri.rso.kb6750.model3dparser.services.beans.Model3dMetadataBean;
+import si.fri.rso.kb6750.model3dparser.services.beans.Model3dParserBean;
 
 @ApplicationScoped
-@Path("/models3d")
+@Path("/parser")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 
-public class Model3dMetadataResource {
-    private Logger log = Logger.getLogger(Model3dMetadataResource.class.getName());
+public class Model3dParserResource {
+    private Logger log = Logger.getLogger(Model3dParserResource.class.getName());
 
     @Inject
-    private Model3dMetadataBean model3dMetadataBean;
+    private Model3dParserBean model3dParserBean;
 
     @Context
     protected UriInfo uriInfo;
 
+    @POST
+    public Response parseModel3dMetadata(Model3dBinaryData model3dBinaryData) {
+        Model3dMetadata model3dMetadata;
+        if (model3dBinaryData.getBinaryArrayString() == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        else {
+            model3dMetadata = model3dParserBean.processBinaryData(model3dBinaryData);
+        }
+        System.out.println("Recieved: " + model3dBinaryData.getBinaryArrayString());
+        return Response.status(Response.Status.OK).entity(model3dMetadata).build();
+    }
+    /*
     @GET
     public Response getModel3dMetadata() {
 
@@ -56,21 +70,9 @@ public class Model3dMetadataResource {
 
         return Response.status(Response.Status.OK).entity(model3dMetadata).build();
     }
+    */
 
-    @POST
-    public Response createModel3dMetadata(Model3dMetadata model3dMetadata) {
-
-        if ((model3dMetadata.getTitle() == null || model3dMetadata.getDescription() == null || model3dMetadata.getUri() == null)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        else {
-            model3dMetadata = model3dMetadataBean.createModel3dMetadata(model3dMetadata);
-        }
-
-        return Response.status(Response.Status.OK).entity(model3dMetadata).build();
-
-    }
-
+    /*
     @PUT
     @Path("{model3dMetadataId}")
     public Response putModel3dMetadata(@PathParam("model3dMetadataId") Integer model3dMetadataId,
@@ -99,4 +101,5 @@ public class Model3dMetadataResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
+    */
 }

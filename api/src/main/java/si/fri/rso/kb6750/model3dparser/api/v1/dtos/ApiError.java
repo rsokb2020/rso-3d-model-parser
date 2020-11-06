@@ -1,4 +1,4 @@
-package si.fri.rso.kb6750.model3dcatalog.api.v1.dtos;
+package si.fri.rso.kb6750.model3dparser.api.v1.dtos;
 
 public class ApiError {
 

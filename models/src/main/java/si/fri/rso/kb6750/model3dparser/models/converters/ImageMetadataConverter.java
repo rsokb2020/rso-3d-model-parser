@@ -1,7 +1,7 @@
-package si.fri.rso.kb6750.model3dcatalog.models.converters;
+package si.fri.rso.kb6750.model3dparser.models.converters;
 
-import si.fri.rso.kb6750.model3dcatalog.lib.ImageMetadata;
-import si.fri.rso.kb6750.model3dcatalog.models.entities.ImageMetadataEntity;
+import si.fri.rso.kb6750.model3dparser.lib.ImageMetadata;
+import si.fri.rso.kb6750.model3dparser.models.entities.ImageMetadataEntity;
 
 public class ImageMetadataConverter {
 

@@ -1,4 +1,4 @@
-package si.fri.rso.kb6750.model3dcatalog.models.entities;
+package si.fri.rso.kb6750.model3dparser.models.entities;
 
 import javax.persistence.*;
 import java.time.Instant;

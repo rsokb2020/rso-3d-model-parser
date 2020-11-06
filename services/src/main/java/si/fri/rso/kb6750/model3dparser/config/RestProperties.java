@@ -1,4 +1,4 @@
-package si.fri.rso.kb6750.model3dcatalog.config;
+package si.fri.rso.kb6750.model3dparser.config;
 
 import javax.enterprise.context.ApplicationScoped;
 

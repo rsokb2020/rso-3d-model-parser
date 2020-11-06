@@ -1,4 +1,4 @@
-package si.fri.rso.kb6750.model3dcatalog.api.v1.resources;
+package si.fri.rso.kb6750.model3dparser.api.v1.resources;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -17,8 +17,8 @@ import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.logging.Logger;
 
-import si.fri.rso.kb6750.model3dcatalog.lib.ImageMetadata;
-import si.fri.rso.kb6750.model3dcatalog.services.beans.ImageMetadataBean;
+import si.fri.rso.kb6750.model3dparser.lib.ImageMetadata;
+import si.fri.rso.kb6750.model3dparser.services.beans.ImageMetadataBean;
 
 @ApplicationScoped
 @Path("/images")

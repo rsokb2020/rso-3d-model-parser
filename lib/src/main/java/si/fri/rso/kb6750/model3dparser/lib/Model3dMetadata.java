@@ -1,4 +1,4 @@
-package si.fri.rso.kb6750.model3dcatalog.lib;
+package si.fri.rso.kb6750.model3dparser.lib;
 
 import java.time.Instant;
 
