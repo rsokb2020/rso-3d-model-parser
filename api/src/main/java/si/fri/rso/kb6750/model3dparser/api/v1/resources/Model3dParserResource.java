@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -38,68 +39,16 @@ public class Model3dParserResource {
     protected UriInfo uriInfo;
 
     @POST
-    public Response parseModel3dMetadata(Model3dBinaryData model3dBinaryData) {
+    public Response parseModel3dMetadata(Model3dBinaryData model3dBinaryData) throws IOException {
         Model3dMetadata model3dMetadata;
+
         if (model3dBinaryData.getBinaryArrayString() == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         else {
             model3dMetadata = model3dParserBean.processBinaryData(model3dBinaryData);
         }
-        System.out.println("Recieved: " + model3dBinaryData.getBinaryArrayString());
+        System.out.println("Recieved: " + model3dBinaryData.getBinaryArrayString().substring(0,3));
         return Response.status(Response.Status.OK).entity(model3dMetadata).build();
     }
-    /*
-    @GET
-    public Response getModel3dMetadata() {
-
-        List<Model3dMetadata> model3dMetadata = model3dMetadataBean.getModel3dMetadataFilter(uriInfo);
-
-        return Response.status(Response.Status.OK).entity(model3dMetadata).build();
-    }
-
-    @GET
-    @Path("/{model3dMetadataId}")
-    public Response getModel3dMetadata(@PathParam("model3dMetadataId") Integer model3dMetadataId) {
-
-        Model3dMetadata model3dMetadata = model3dMetadataBean.getModel3dMetadata(model3dMetadataId);
-
-        if (model3dMetadata == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return Response.status(Response.Status.OK).entity(model3dMetadata).build();
-    }
-    */
-
-    /*
-    @PUT
-    @Path("{model3dMetadataId}")
-    public Response putModel3dMetadata(@PathParam("model3dMetadataId") Integer model3dMetadataId,
-                                       Model3dMetadata model3dMetadata) {
-
-        model3dMetadata = model3dMetadataBean.putModel3dMetadata(model3dMetadataId, model3dMetadata);
-
-        if (model3dMetadata == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return Response.status(Response.Status.NOT_MODIFIED).build();
-
-    }
-
-    @DELETE
-    @Path("{model3dMetadataId}")
-    public Response deleteModel3dMetadata(@PathParam("model3dMetadataId") Integer model3dMetadataId) {
-
-        boolean deleted = model3dMetadataBean.deleteModel3dMetadata(model3dMetadataId);
-
-        if (deleted) {
-            return Response.status(Response.Status.NO_CONTENT).build();
-        }
-        else {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-    }
-    */
 }

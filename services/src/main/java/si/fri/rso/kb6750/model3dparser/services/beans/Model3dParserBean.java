@@ -2,13 +2,18 @@ package si.fri.rso.kb6750.model3dparser.services.beans;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+// import javax.persistence.EntityManager;
+// import javax.persistence.TypedQuery;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.UriInfo;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
+import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -19,150 +24,114 @@ import com.mokiat.data.front.parser.IOBJParser;
 import com.mokiat.data.front.parser.OBJModel;
 import com.mokiat.data.front.parser.OBJParser;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dBinaryData;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dMetadata;
-import si.fri.rso.kb6750.model3dparser.models.converters.Model3dMetadataConverter;
-import si.fri.rso.kb6750.model3dparser.models.entities.Model3dMetadataEntity;
+// import si.fri.rso.kb6750.model3dparser.models.converters.Model3dMetadataConverter;
+// import si.fri.rso.kb6750.model3dparser.models.entities.Model3dMetadataEntity;
+
 
 @RequestScoped
 public class Model3dParserBean {
 
-    private Logger log = Logger.getLogger(Model3dMetadataBean.class.getName());
+    private Logger log = Logger.getLogger(Model3dParserBean.class.getName());
 
-    @Inject
-    private EntityManager em;
+    // @Inject
+    // private EntityManager em;
 
     public Model3dMetadata processBinaryData(Model3dBinaryData model3dBinaryData) throws IOException {
-        // TODO Parse
+        // String of the binary array representing the .obj model
         String message = model3dBinaryData.getBinaryArrayString();
+        // Convert the string into a byte array
         byte[] backToBytes = Base64.decodeBase64(message);
+
         String test = new String(backToBytes);
-        System.out.println("The message decoded: " + test);
+        System.out.println("The message decoded: " + test.substring(0, 3));
 
         final IOBJParser parser = new OBJParser();
         InputStream targetStream = new ByteArrayInputStream(backToBytes);
         final OBJModel model = parser.parse(targetStream);
 
+        System.out.println(MessageFormat.format(
+                "OBJ model has {0} vertices, {1} normals, {2} texture coordinates, and {3} objects.",
+                model.getVertices().size(),
+                model.getNormals().size(),
+                model.getTexCoords().size(),
+                model.getObjects().size()));
+
         Model3dMetadata model3dMetadata = new Model3dMetadata();
+        model3dMetadata.setBinaryArray(message);
+        model3dMetadata.setTitle(model3dBinaryData.getTitle());
+        model3dMetadata.setDescription(model3dBinaryData.getDescription());
+        model3dMetadata.setNumberOfFaces((long)(model.getNormals().size()));
+        model3dMetadata.setNumberOfVertices((long)(model.getVertices().size()));
+        model3dMetadata.setAssetBundleBinaryArray(model3dBinaryData.getAssetBundleBinaryArray());
+        boolean sendingSucceded = sendDataToCatalog(model3dMetadata);
 
         return model3dMetadata;
     }
 
-    /*
-    public List<Model3dMetadata> getModel3dMetadata() {
-
-        TypedQuery<Model3dMetadataEntity> query = em.createNamedQuery(
-                "Model3DMetadataEntity.getAll", Model3dMetadataEntity.class);
-
-        List<Model3dMetadataEntity> resultList = query.getResultList();
-
-        return resultList.stream().map(Model3dMetadataConverter::toDto).collect(Collectors.toList());
-
-    }
-
-    public List<Model3dMetadata> getModel3dMetadataFilter(UriInfo uriInfo) {
-
-        QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
-                .build();
-
-        return JPAUtils.queryEntities(em, Model3dMetadataEntity.class, queryParameters).stream()
-                .map(Model3dMetadataConverter::toDto).collect(Collectors.toList());
-    }
-
-    public Model3dMetadata getModel3dMetadata(Integer id) {
-
-        Model3dMetadataEntity model3dMetadataEntity = em.find(Model3dMetadataEntity.class, id);
-
-        if (model3dMetadataEntity == null) {
-            throw new NotFoundException();
-        }
-
-        Model3dMetadata model3dMetadata = Model3dMetadataConverter.toDto(model3dMetadataEntity);
-
-        return model3dMetadata;
-    }
-    */
-    /*
-    public Model3dMetadata createModel3dMetadata(Model3dMetadata model3dMetadata) {
-
-        Model3dMetadataEntity model3dMetadataEntity = Model3dMetadataConverter.toEntity(model3dMetadata);
-
+    public boolean sendDataToCatalog(Model3dMetadata model3dMetadata) throws IOException {
+        // "{\"binary\":\"jiberish\",\"created\":\"2006-01-01T14:36:38Z\",\"description\":\"22This is the first model that I created within my app.\",\"faces\":500,\"modelId\":1,\"title\":\"Our fist 3d model\",\"uri\":\"free3d.com\/3d-models\/obj-library\",\"vertices\":1200}"
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         try {
-            beginTx();
-            em.persist(model3dMetadataEntity);
-            commitTx();
-        }
-        catch (Exception e) {
-            rollbackTx();
-        }
+            // String url =
+            URL obj = new URL("http://172.17.0.1:8080/v1/models3d");
+            // HttpPost request = new HttpPost(uri);
+            JSONObject json = new JSONObject();
 
-        if (model3dMetadataEntity.getId() == null) {
-            throw new RuntimeException("Entity was not persisted");
-        }
+            json.put("title", model3dMetadata.getTitle());
+            json.put("description", model3dMetadata.getDescription());
+            // json.put("uri", "This value should get removed soon.");
+            json.put("binary", model3dMetadata.getBinaryArray());
+            json.put("vertices", model3dMetadata.getNumberOfVertices());
+            json.put("normals", model3dMetadata.getNumberOfFaces());
+            json.put("assetBundleBinaryArray", model3dMetadata.getAssetBundleBinaryArray());
 
-        return Model3dMetadataConverter.toDto(model3dMetadataEntity);
-    }
+            HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
+            postConnection.setRequestMethod("POST");
+            postConnection.setRequestProperty("Content-Type", "application/json");
+            postConnection.setDoOutput(true);
 
-    public Model3dMetadata putModel3dMetadata(Integer id, Model3dMetadata model3dMetadata) {
+            OutputStream os = postConnection.getOutputStream();
+            os.write(json.toString().getBytes());
+            os.flush();
+            os.close();
+          int responseCode = postConnection.getResponseCode();
 
-        Model3dMetadataEntity c = em.find(Model3dMetadataEntity.class, id);
+            System.out.println("POST Response Code :  " + responseCode);
+            System.out.println("POST Response Message : " + postConnection.getResponseMessage());
 
-        if (c == null) {
-            return null;
-        }
+            if (responseCode == HttpURLConnection.HTTP_CREATED || responseCode == HttpURLConnection.HTTP_OK ) { //success
+                BufferedReader in = new BufferedReader(new InputStreamReader(postConnection.getInputStream()));
 
-        Model3dMetadataEntity updatedModel3dMetadataEntity = Model3dMetadataConverter.toEntity(model3dMetadata);
+                String inputLine;
+                StringBuffer response = new StringBuffer();
 
-        try {
-            beginTx();
-            updatedModel3dMetadataEntity.setId(c.getId());
-            updatedModel3dMetadataEntity = em.merge(updatedModel3dMetadataEntity);
-            commitTx();
-        }
-        catch (Exception e) {
-            rollbackTx();
-        }
+                while ((inputLine = in .readLine()) != null) {
+                    response.append(inputLine);
+                }
 
-        return Model3dMetadataConverter.toDto(updatedModel3dMetadataEntity);
-    }
+                in.close();
 
-    public boolean deleteModel3dMetadata(Integer id) {
-
-        Model3dMetadataEntity model3dMetadata = em.find(Model3dMetadataEntity.class, id);
-
-        if (model3dMetadata != null) {
-            try {
-                beginTx();
-                em.remove(model3dMetadata);
-                commitTx();
+                System.out.println(response.toString());
+            } else {
+                System.out.println("POST NOT WORKED");
             }
-            catch (Exception e) {
-                rollbackTx();
-            }
-        }
-        else {
+        } catch (Exception ex) {
+            System.out.println(ex);
             return false;
         }
-
         return true;
     }
-
-    private void beginTx() {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
-    }
-
-    private void commitTx() {
-        if (em.getTransaction().isActive()) {
-            em.getTransaction().commit();
-        }
-    }
-
-    private void rollbackTx() {
-        if (em.getTransaction().isActive()) {
-            em.getTransaction().rollback();
-        }
-    }
-    */
 }

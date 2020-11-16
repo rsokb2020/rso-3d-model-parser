@@ -10,6 +10,16 @@ public class Model3dMetadata {
     private Long numberOfFaces;
     private Instant created;
     private String uri;
+    private String binaryArray;
+    private String assetBundleBinaryArray;
+
+    public String getBinaryArray() {
+        return binaryArray;
+    }
+
+    public void setBinaryArray(String binaryArray) {
+        this.binaryArray = binaryArray;
+    }
 
     public Integer getModelId() {
         return modelID;
@@ -65,5 +75,13 @@ public class Model3dMetadata {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public String getAssetBundleBinaryArray() {
+        return assetBundleBinaryArray;
+    }
+
+    public void setAssetBundleBinaryArray(String assetBundleBinaryArray) {
+        this.assetBundleBinaryArray = assetBundleBinaryArray;
     }
 }

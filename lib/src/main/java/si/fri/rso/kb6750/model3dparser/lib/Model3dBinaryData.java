@@ -10,5 +10,32 @@ public class Model3dBinaryData {
     }
 
     private String binaryArrayString;
+    private String assetBundleBinaryArray;
+    public String getTitle() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    private String title;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    private String description;
+
+    public String getAssetBundleBinaryArray() {
+        return assetBundleBinaryArray;
+    }
+
+    public void setAssetBundleBinaryArray(String assetBundleBinaryArray) {
+        this.assetBundleBinaryArray = assetBundleBinaryArray;
+    }
 }
