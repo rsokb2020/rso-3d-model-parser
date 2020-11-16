@@ -43,5 +43,5 @@ jobs:
         file: ./Dockerfile_with_maven_build
         # Hočemo da se pusha
         push: true
-        # Ime slike z tagom s katerim enolično določimo sliko (v tem primeru timestamp od prej)
+        # Ime slike z tagom s katerim enolično določimo sliko
         tags: klemiba/model-3d-parser:${{ steps.time.outputs.time }}
