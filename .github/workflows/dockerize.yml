@@ -44,4 +44,4 @@ jobs:
         # Hočemo da se pusha
         push: true
         # Ime slike z tagom s katerim enolično določimo sliko (v tem primeru timestamp od prej)
-        tags: klemiba/model-3d-catalog:${{ steps.time.outputs.time }}
+        tags: klemiba/model-3d-parser:${{ steps.time.outputs.time }}
