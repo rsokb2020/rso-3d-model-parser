@@ -22,7 +22,6 @@
         </dependency>
         <dependency>
             <artifactId>kumuluzee-config-etcd</artifactId>
-
             <groupId>com.kumuluz.ee.config</groupId>
         </dependency>
 
@@ -30,7 +29,7 @@
             <groupId>si.fri.rso.kb6750</groupId>
             <artifactId>model-3d-parser-services</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
+
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>

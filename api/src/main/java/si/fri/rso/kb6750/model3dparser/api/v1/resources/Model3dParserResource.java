@@ -18,14 +18,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.mokiat.data.front.parser.IOBJParser;
-import com.mokiat.data.front.parser.OBJParser;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dBinaryData;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dMetadata;
 import si.fri.rso.kb6750.model3dparser.services.beans.Model3dParserBean;
 
 @ApplicationScoped
-@Path("/parser")
+@Path("/parse")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 
