@@ -3,12 +3,12 @@ package si.fri.rso.kb6750.model3dparser.services.producers;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+// import javax.persistence.EntityManager;
+// import javax.persistence.EntityManagerFactory;
+// import javax.persistence.PersistenceUnit;
 
 public class PersistenceProducer {
-
+    /*
     @PersistenceUnit(unitName = "model3d-catalog-jpa")
     private EntityManagerFactory emf;
 
@@ -23,5 +23,5 @@ public class PersistenceProducer {
         if (entityManager.isOpen()) {
             entityManager.close();
         }
-    }
+    }*/
 }

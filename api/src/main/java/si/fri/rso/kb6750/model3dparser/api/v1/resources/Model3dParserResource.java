@@ -23,7 +23,7 @@ import si.fri.rso.kb6750.model3dparser.lib.Model3dMetadata;
 import si.fri.rso.kb6750.model3dparser.services.beans.Model3dParserBean;
 
 @ApplicationScoped
-@Path("/parse")
+@Path("/parser")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 
@@ -35,6 +35,12 @@ public class Model3dParserResource {
 
     @Context
     protected UriInfo uriInfo;
+
+    @GET
+    public Response getModel3dMetadata() {
+        System.out.println("Recieved GET request on /parser.");
+        return Response.status(Response.Status.OK).entity("Success").build();
+    }
 
     @POST
     public Response parseModel3dMetadata(Model3dBinaryData model3dBinaryData) throws IOException {

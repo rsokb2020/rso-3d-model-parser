@@ -13,7 +13,7 @@
     <modules>
         <module>api</module>
         <module>services</module>
-        <module>models</module>
+        <!--<module>models</module>-->
         <module>lib</module>
     </modules>
 
@@ -45,17 +45,17 @@
                 <version>${kumuluzee-rest.version}</version>
             </dependency>
             <dependency>
-                <artifactId>kumuluzee-config-etcd</artifactId>
+                <artifactId>kumuluzee-config-consul</artifactId>
                 <groupId>com.kumuluz.ee.config</groupId>
                 <version>${kumuluzee-config.version}</version>
             </dependency>
-
+            <!--
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
             </dependency>
-
+            -->
             <dependency>
                 <groupId>si.fri.rso.kb6750</groupId>
                 <artifactId>model-3d-parser-api</artifactId>
@@ -71,11 +71,12 @@
                 <artifactId>model-3d-parser-lib</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!--
             <dependency>
                 <groupId>si.fri.rso.kb6750</groupId>
                 <artifactId>model-3d-parser-models</artifactId>
                 <version>${project.version}</version>
-            </dependency>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
 

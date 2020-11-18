@@ -2,8 +2,8 @@ package si.fri.rso.kb6750.model3dparser.services.beans;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+// import javax.persistence.EntityManager;
+// import javax.persistence.TypedQuery;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
@@ -13,11 +13,12 @@ import java.util.stream.Collectors;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dMetadata;
-import si.fri.rso.kb6750.model3dparser.models.converters.Model3dMetadataConverter;
-import si.fri.rso.kb6750.model3dparser.models.entities.Model3dMetadataEntity;
+// import si.fri.rso.kb6750.model3dparser.models.converters.Model3dMetadataConverter;
+// import si.fri.rso.kb6750.model3dparser.models.entities.Model3dMetadataEntity;
 
-@RequestScoped
+//@RequestScoped
 public class Model3dMetadataBean {
+    /*
     private Logger log = Logger.getLogger(Model3dMetadataBean.class.getName());
 
     @Inject
@@ -137,4 +138,6 @@ public class Model3dMetadataBean {
             em.getTransaction().rollback();
         }
     }
+
+     */
 }
