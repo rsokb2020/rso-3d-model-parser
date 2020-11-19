@@ -7,11 +7,11 @@ kumuluzee:
     base-url: http://localhost:8082
     http:
       port: 8082
-    datasources:
-      - jndi-name: jdbc/Model3dMetadataDS
-        connection-url: jdbc:postgresql://localhost:5432/model3d-metadata
-        username: klemen
-        password: rso6750
-        max-pool-size: 20
+  datasources:
+    - jndi-name: jdbc/Model3dMetadataDS
+      connection-url: jdbc:postgresql://localhost:5432/model3d-metadata
+      username: klemen
+      password: rso6750
+      max-pool-size: 20
 rest-properties:
   maintenance-mode: false
