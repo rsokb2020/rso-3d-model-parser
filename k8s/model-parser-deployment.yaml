@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: model-3d-parser-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: model-3d-parser
+  template:
+    metadata:
+      labels:
+        app: model-3d-parser
+    spec:
+      containers:
+        - image: klemiba/model-3d-catalog:2020-11-18-04-49-32
+          name: model-3d-parser
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-3d-parser
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: model-3d-parser
