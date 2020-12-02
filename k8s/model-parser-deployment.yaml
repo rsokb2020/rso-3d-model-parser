@@ -13,7 +13,7 @@ spec:
         app: model-3d-parser
     spec:
       containers:
-        - image: klemiba/model-3d-catalog:2020-11-18-04-49-32
+        - image: klemiba/model-3d-parser:2020-11-17-00-24-00
           name: model-3d-parser
           ports:
             - containerPort: 8080
