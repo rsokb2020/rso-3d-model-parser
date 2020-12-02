@@ -4,5 +4,6 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("/v1")
-public class Model3dMetadataApplication {
+public class Model3dMetadataApplication extends Application{
 }
+    
