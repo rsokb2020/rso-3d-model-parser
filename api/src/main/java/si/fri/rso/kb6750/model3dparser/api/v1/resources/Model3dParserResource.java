@@ -51,7 +51,7 @@ public class Model3dParserResource {
 
         json.put("clani", "['kb6750']");
         json.put("opis_projekta", "Aplikacija za nalaganje,shranjevanje in prikazovanje 3d modelov.");
-        json.put("mikrostoritve", "['52.142.34.154:8080/v1/models3d','40.88.193.71:8080/v1/parser']");
+        json.put("mikrostoritve", "['40.76.130.74:8080/v1/models3d','40.88.212.66:8080/v1/parser']");
         // json.put("uri", "This value should get removed soon.");
         json.put("github", "['https://github.com/rsokb2020/rso-3d-model-parser,'https://github.com/rsokb2020/rso-3d-model-catalog']");
         json.put("travis", "['https://github.com/rsokb2020/rso-3d-model-parser/actions','https://github.com/rsokb2020/rso-3d-model-catalog/actions']");
