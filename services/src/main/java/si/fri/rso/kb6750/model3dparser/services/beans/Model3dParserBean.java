@@ -19,22 +19,17 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
-import com.kumuluz.ee.rest.utils.JPAUtils;
+// import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.mokiat.data.front.parser.IOBJParser;
 import com.mokiat.data.front.parser.OBJModel;
 import com.mokiat.data.front.parser.OBJParser;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+import si.fri.rso.kb6750.model3dparser.config.RestProperties;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dBinaryData;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dMetadata;
 // import si.fri.rso.kb6750.model3dparser.models.converters.Model3dMetadataConverter;
@@ -45,6 +40,9 @@ import si.fri.rso.kb6750.model3dparser.lib.Model3dMetadata;
 public class Model3dParserBean {
 
     private Logger log = Logger.getLogger(Model3dParserBean.class.getName());
+
+    @Inject
+    private RestProperties restProperties;
 
     // @Inject
     // private EntityManager em;
@@ -85,8 +83,9 @@ public class Model3dParserBean {
         // "{\"binary\":\"jiberish\",\"created\":\"2006-01-01T14:36:38Z\",\"description\":\"22This is the first model that I created within my app.\",\"faces\":500,\"modelId\":1,\"title\":\"Our fist 3d model\",\"uri\":\"free3d.com\/3d-models\/obj-library\",\"vertices\":1200}"
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         try {
-            // String url =
-            URL obj = new URL("http://172.17.0.1:8080/v1/models3d");
+            String url = restProperties.getCatalogServiceIp();
+            URL obj = new URL(url);
+            // "http://172.17.0.1:8080/v1/models3d"
             // HttpPost request = new HttpPost(uri);
             JSONObject json = new JSONObject();
 
