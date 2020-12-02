@@ -57,7 +57,7 @@ public class Model3dParserResource {
         json.put("travis", "['https://github.com/rsokb2020/rso-3d-model-parser/actions','https://github.com/rsokb2020/rso-3d-model-catalog/actions']");
         json.put("dockerhub", "['https://hub.docker.com/repository/docker/klemiba/model-3d-parser'],['https://hub.docker.com/repository/docker/klemiba/model-3d-catalog']");
 
-        return Response.status(Response.Status.OK).entity(json).build();
+        return Response.status(Response.Status.OK).entity(json.toString()).build();
     }
 
     @POST
