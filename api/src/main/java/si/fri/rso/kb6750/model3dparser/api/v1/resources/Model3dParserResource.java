@@ -42,7 +42,7 @@ public class Model3dParserResource {
         System.out.println("Recieved GET request on /parser.");
         return Response.status(Response.Status.OK).entity("Success").build();
     }
-
+    /*
     @GET
     @Path("/info")
     public Response getModel3dMetadata(@PathParam("model3dMetadataId") Integer model3dMetadataId) {
@@ -58,7 +58,7 @@ public class Model3dParserResource {
         json.put("dockerhub", "['https://hub.docker.com/repository/docker/klemiba/model-3d-parser'],['https://hub.docker.com/repository/docker/klemiba/model-3d-catalog']");
 
         return Response.status(Response.Status.OK).entity(json.toString()).build();
-    }
+    }*/
 
     @POST
     public Response parseModel3dMetadata(Model3dBinaryData model3dBinaryData) throws IOException {

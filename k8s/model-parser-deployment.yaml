@@ -27,7 +27,7 @@ kind: Service
 metadata:
   name: model-3d-parser
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 8080
       protocol: TCP

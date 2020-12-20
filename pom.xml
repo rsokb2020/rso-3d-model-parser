@@ -45,7 +45,7 @@
                 <version>${kumuluzee-rest.version}</version>
             </dependency>
             <dependency>
-                <artifactId>kumuluzee-config-etcd</artifactId>
+                <artifactId>kumuluzee-config-consul</artifactId>
                 <groupId>com.kumuluz.ee.config</groupId>
                 <version>${kumuluzee-config.version}</version>
             </dependency>
