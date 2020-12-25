@@ -24,6 +24,10 @@
             <artifactId>kumuluzee-config-consul</artifactId>
             <groupId>com.kumuluz.ee.config</groupId>
         </dependency>
+        <dependency>
+            <artifactId>kumuluzee-logs-log4j2</artifactId>
+            <groupId>com.kumuluz.ee.logs</groupId>
+        </dependency>
 
         <dependency>
             <groupId>si.fri.rso.kb6750</groupId>
