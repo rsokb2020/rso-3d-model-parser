@@ -101,7 +101,7 @@ public class Model3dParserBean {
             HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
             postConnection.setRequestMethod("POST");
             postConnection.setRequestProperty("Content-Type", "application/json");
-            postConnection.setRequestProperty("request-chain", restProperties.getCatalogServiceIp());
+            postConnection.setRequestProperty("request-chain", restProperties.getRequestChainHeader());
             postConnection.setDoOutput(true);
 
             OutputStream os = postConnection.getOutputStream();
