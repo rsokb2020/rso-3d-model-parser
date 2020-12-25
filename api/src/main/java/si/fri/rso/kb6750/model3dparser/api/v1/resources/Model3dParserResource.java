@@ -18,11 +18,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.kumuluz.ee.logs.cdi.Log;
 import org.json.JSONObject;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dBinaryData;
 import si.fri.rso.kb6750.model3dparser.lib.Model3dMetadata;
 import si.fri.rso.kb6750.model3dparser.services.beans.Model3dParserBean;
 
+@Log
 @ApplicationScoped
 @Path("/parser")
 @Consumes(MediaType.APPLICATION_JSON)

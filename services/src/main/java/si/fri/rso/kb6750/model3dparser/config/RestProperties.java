@@ -14,6 +14,10 @@ public class RestProperties {
 
     private String catalogServiceIp;
 
+
+    private String requestChainHeader;
+
+
     public Boolean getMaintenanceMode() {
         return this.maintenanceMode;
     }
@@ -28,5 +32,13 @@ public class RestProperties {
 
     public void setCatalogServiceIp(String catalogServiceIp) {
         this.catalogServiceIp = catalogServiceIp;
+    }
+
+    public String getRequestChainHeader() {
+        return this.requestChainHeader;
+    }
+
+    public void setRequestChainHeader(final String requestChainHeader) {
+        this.requestChainHeader = requestChainHeader;
     }
 }
