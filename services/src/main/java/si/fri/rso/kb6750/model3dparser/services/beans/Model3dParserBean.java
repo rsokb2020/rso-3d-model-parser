@@ -85,6 +85,7 @@ public class Model3dParserBean {
         try {
             String url = restProperties.getCatalogServiceIp();
             URL obj = new URL(url);
+
             // "http://172.17.0.1:8080/v1/models3d"
             // HttpPost request = new HttpPost(uri);
             JSONObject json = new JSONObject();
@@ -100,6 +101,7 @@ public class Model3dParserBean {
             HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
             postConnection.setRequestMethod("POST");
             postConnection.setRequestProperty("Content-Type", "application/json");
+            postConnection.setRequestProperty("request-chain", restProperties.getCatalogServiceIp());
             postConnection.setDoOutput(true);
 
             OutputStream os = postConnection.getOutputStream();
