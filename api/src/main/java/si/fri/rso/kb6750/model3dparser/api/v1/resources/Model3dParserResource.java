@@ -39,6 +39,7 @@ public class Model3dParserResource {
     @Context
     protected UriInfo uriInfo;
 
+    @Log
     @GET
     public Response getModel3dMetadata() {
         System.out.println("Recieved GET request on /parser.");
@@ -61,7 +62,7 @@ public class Model3dParserResource {
 
         return Response.status(Response.Status.OK).entity(json.toString()).build();
     }*/
-
+    @Log
     @POST
     public Response parseModel3dMetadata(Model3dBinaryData model3dBinaryData) throws IOException {
         Model3dMetadata model3dMetadata;
