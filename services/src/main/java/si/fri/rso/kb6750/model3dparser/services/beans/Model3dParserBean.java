@@ -47,7 +47,7 @@ public class Model3dParserBean {
     // @Inject
     // private EntityManager em;
 
-    public Model3dMetadata processBinaryData(Model3dBinaryData model3dBinaryData) throws IOException {
+    public Model3dMetadata processAndForwardBinaryData(Model3dBinaryData model3dBinaryData) throws IOException {
         // String of the binary array representing the .obj model
         String message = model3dBinaryData.getBinaryArrayString();
         // Convert the string into a byte array
@@ -79,9 +79,38 @@ public class Model3dParserBean {
         return model3dMetadata;
     }
 
+    public Model3dMetadata processBinaryData(Model3dBinaryData model3dBinaryData) throws IOException {
+        // String of the binary array representing the .obj model
+        String message = model3dBinaryData.getBinaryArrayString();
+        // Convert the string into a byte array
+        byte[] backToBytes = Base64.decodeBase64(message);
+
+        String test = new String(backToBytes);
+        System.out.println("The message decoded: " + test.substring(0, 3));
+
+        final IOBJParser parser = new OBJParser();
+        InputStream targetStream = new ByteArrayInputStream(backToBytes);
+        final OBJModel model = parser.parse(targetStream);
+
+        System.out.println(MessageFormat.format(
+                "OBJ model has {0} vertices, {1} normals, {2} texture coordinates, and {3} objects.",
+                model.getVertices().size(),
+                model.getNormals().size(),
+                model.getTexCoords().size(),
+                model.getObjects().size()));
+
+        Model3dMetadata model3dMetadata = new Model3dMetadata();
+        model3dMetadata.setBinaryArray(message);
+        model3dMetadata.setTitle(model3dBinaryData.getTitle());
+        model3dMetadata.setDescription(model3dBinaryData.getDescription());
+        model3dMetadata.setNumberOfFaces((long)(model.getNormals().size()));
+        model3dMetadata.setNumberOfVertices((long)(model.getVertices().size()));
+        model3dMetadata.setAssetBundleBinaryArray(model3dBinaryData.getAssetBundleBinaryArray());
+
+        return model3dMetadata;
+    }
+
     public boolean sendDataToCatalog(Model3dMetadata model3dMetadata) throws IOException {
-        // "{\"binary\":\"jiberish\",\"created\":\"2006-01-01T14:36:38Z\",\"description\":\"22This is the first model that I created within my app.\",\"faces\":500,\"modelId\":1,\"title\":\"Our fist 3d model\",\"uri\":\"free3d.com\/3d-models\/obj-library\",\"vertices\":1200}"
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         try {
             String url = restProperties.getCatalogServiceIp();
             URL obj = new URL(url);

@@ -71,6 +71,22 @@ public class Model3dParserResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         else {
+            model3dMetadata = model3dParserBean.processAndForwardBinaryData(model3dBinaryData);
+        }
+        System.out.println("Recieved: " + model3dBinaryData.getBinaryArrayString().substring(0,3));
+        return Response.status(Response.Status.OK).entity(model3dMetadata).build();
+    }
+
+    @Log
+    @POST
+    @Path("/parseExisting")
+    public Response parseExistingModel3dMetadata(Model3dBinaryData model3dBinaryData) throws IOException {
+        Model3dMetadata model3dMetadata;
+
+        if (model3dBinaryData.getBinaryArrayString() == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        else {
             model3dMetadata = model3dParserBean.processBinaryData(model3dBinaryData);
         }
         System.out.println("Recieved: " + model3dBinaryData.getBinaryArrayString().substring(0,3));
